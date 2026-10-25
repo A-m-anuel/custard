@@ -1,0 +1,36 @@
+# Local/evaluation deployment: CuSTaRD + PostgreSQL. Put a TLS reverse proxy in front for production.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: custard
+      POSTGRES_USER: custard
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U custard -d custard"]
+      interval: 5s
+      retries: 10
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      CUSTARD_SECRET_KEY: ${CUSTARD_SECRET_KEY:?set CUSTARD_SECRET_KEY}
+      DATABASE_URL: postgres://custard:${POSTGRES_PASSWORD}@db:5432/custard
+      CUSTARD_ALLOWED_HOSTS: ${CUSTARD_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      CUSTARD_ORGANISATION_NAME: ${CUSTARD_ORGANISATION_NAME:-Example Ltd}
+      # Local evaluation over plain HTTP only. Remove both lines behind HTTPS.
+      CUSTARD_SSL_REDIRECT: "false"
+      CUSTARD_INSECURE_COOKIES_FOR_LOCAL_HTTP: "true"
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - private:/app/var
+
+volumes:
+  pgdata:
+  private:

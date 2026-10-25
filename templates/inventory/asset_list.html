@@ -1,0 +1,48 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}Assets{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Assets</h1><p>Central inventory of hardware, software and information assets.</p></div>
+  <div class="actions">
+    {% has_perm "inventory.import_assets" as can_import %}{% has_perm "inventory.add_asset" as can_add %}
+    <a class="btn" href="{% url 'export_assets' %}">Export CSV</a>
+    {% if can_import %}<a class="btn" href="{% url 'asset_import' %}">Import CSV</a>{% endif %}
+    {% if can_add %}<a class="btn primary" href="{% url 'asset_create' %}">Register asset</a>{% endif %}
+  </div>
+</div>
+<form class="filters" method="get" role="search">
+  <div class="field grow"><label for="q">Search</label><input type="search" id="q" name="q" value="{{ q }}" placeholder="Name, description or location"></div>
+  <div class="field"><label for="type">Type</label><select id="type" name="type" data-autosubmit><option value="">All types</option>{% for t in types %}<option value="{{ t.pk }}"{% if type_id == t.pk|stringformat:"s" %} selected{% endif %}>{{ t.name }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="category">Category</label><select id="category" name="category" data-autosubmit><option value="">All categories</option>{% for c in categories %}<option value="{{ c.pk }}"{% if category_id == c.pk|stringformat:"s" %} selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="status">Status</label><select id="status" name="status" data-autosubmit>
+    <option value="">All</option><option value="exposed"{% if status == "exposed" %} selected{% endif %}>Exposed</option>
+    <option value="secure"{% if status == "secure" %} selected{% endif %}>At or above threshold</option>
+    <option value="unassessed"{% if status == "unassessed" %} selected{% endif %}>Not assessed</option>
+    <option value="mine"{% if status == "mine" %} selected{% endif %}>Owned by me</option></select></div>
+  <div class="field"><label for="sort">Sort</label><select id="sort" name="sort" data-autosubmit>
+    <option value="name"{% if sort == "name" %} selected{% endif %}>Name</option>
+    <option value="score"{% if sort == "score" %} selected{% endif %}>Lowest score first</option>
+    <option value="-score"{% if sort == "-score" %} selected{% endif %}>Highest score first</option>
+    <option value="-created"{% if sort == "-created" %} selected{% endif %}>Newest first</option></select></div>
+  <div class="field"><label><input type="checkbox" name="archived" value="1"{% if show_archived %} checked{% endif %}> Include archived</label></div>
+  <button class="btn" type="submit">Apply</button>
+</form>
+<div class="card">
+  <div class="table-wrap"><table>
+    <thead><tr><th>Asset</th><th>Type / category</th><th>Owner</th><th class="nowrap">Impact</th><th>Security score</th><th class="right">Open risks</th></tr></thead>
+    <tbody>
+    {% for a in page_obj %}
+      <tr>
+        <td><a href="{{ a.get_absolute_url }}"><strong>{{ a.name }}</strong></a>{% if not a.is_active %} <span class="badge archived">Archived</span>{% endif %}{% if a.location %}<div class="muted small">{{ a.location }}</div>{% endif %}</td>
+        <td>{{ a.category.asset_type.name }}<div class="muted small">{{ a.category.name }}</div></td>
+        <td>{{ a.owner|default:"—" }}</td>
+        <td>{% include "includes/level.html" with level=a.impact label=a.get_impact_display %}</td>
+        <td class="nowrap">{% minibar a.security_score a|score_css %}{% include "includes/score.html" with asset=a %}</td>
+        <td class="right num">{% if a.unresolved_risks %}<a href="{% url 'risk_list' %}?q={{ a.name|urlencode }}">{{ a.unresolved_risks }}</a>{% else %}0{% endif %}</td>
+      </tr>
+    {% empty %}<tr><td colspan="6" class="empty">No assets match these filters.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+  {% include "includes/pagination.html" %}
+</div>
+{% endblock %}

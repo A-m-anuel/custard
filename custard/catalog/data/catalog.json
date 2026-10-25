@@ -1,0 +1,2993 @@
+{
+ "version": "1.0.0",
+ "description": "CuSTaRD baseline knowledge base, migrated from the 2023 MSc prototype (University of Manchester). Checklists derived from vendor hardening guidance; vulnerabilities and mitigations from NIST SP 800-30, MITRE ATT&CK, OWASP, CVE and ISO/IEC 27001 as described in the dissertation.",
+ "asset_types": [
+  {
+   "name": "Hardware",
+   "categories": [
+    {
+     "name": "Desktop computers",
+     "checklist": [
+      {
+       "text": "Operating System Updates",
+       "pillar": "C"
+      },
+      {
+       "text": "Remove Unnecessary Software",
+       "pillar": "C"
+      },
+      {
+       "text": "Install Antivirus and Anti-malware Software",
+       "pillar": "C"
+      },
+      {
+       "text": "Enable a Firewall",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Strong Authentication",
+       "pillar": "I"
+      },
+      {
+       "text": "Limit User Privileges",
+       "pillar": "I"
+      },
+      {
+       "text": "Secure Network Settings",
+       "pillar": "I"
+      },
+      {
+       "text": "Encrypt Sensitive Data",
+       "pillar": "A"
+      },
+      {
+       "text": "Regular Backups",
+       "pillar": "A"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Unpatched Software",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Regularly update and patch all software"
+       ]
+      },
+      {
+       "name": "Weak or No Password Protection",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Implement strong password policies and enforce multi-factor authentication"
+       ]
+      },
+      {
+       "name": "Unencrypted Sensitive Data",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement full disk encryption"
+       ]
+      },
+      {
+       "name": "Outdated Antivirus/Antimalware",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Ensure antivirus and antimalware software are up-to-date"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Switches/Routers/Hubs",
+     "checklist": [
+      {
+       "text": "Change Default Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Disable Unused Ports",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement VLANs for Segmentation",
+       "pillar": "C"
+      },
+      {
+       "text": "Update Firmware Regularly",
+       "pillar": "C"
+      },
+      {
+       "text": "Restrict Management Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Monitor Network Traffic",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Logging",
+       "pillar": "I"
+      },
+      {
+       "text": "Disable Unnecessary Services",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure Protocols (e.g., SSH)",
+       "pillar": "A"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Default Credentials",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Change default usernames/passwords"
+       ]
+      },
+      {
+       "name": "Firmware Vulnerabilities",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Update firmware"
+       ]
+      },
+      {
+       "name": "Insecure Configuration",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure configurations"
+       ]
+      },
+      {
+       "name": "Unprotected Management Interfaces",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure management interfaces"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Access Points",
+     "checklist": [
+      {
+       "text": "Change Default SSID and Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Enable WPA3 Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Disable WPS",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Update Firmware",
+       "pillar": "C"
+      },
+      {
+       "text": "Isolate Guest Networks",
+       "pillar": "I"
+      },
+      {
+       "text": "Reduce Broadcast Range if Needed",
+       "pillar": "I"
+      },
+      {
+       "text": "Disable Unneeded Services",
+       "pillar": "I"
+      },
+      {
+       "text": "MAC Address Filtering",
+       "pillar": "A"
+      },
+      {
+       "text": "Limit Number of Concurrent Connections",
+       "pillar": "A"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Open Wireless",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use WPA3 encryption"
+       ]
+      },
+      {
+       "name": "Weak Encryption",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Change default credentials"
+       ]
+      },
+      {
+       "name": "Default Credentials",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Disable WPS"
+       ]
+      },
+      {
+       "name": "Rogue Access Points",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regularly scan for rogue devices"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Access Card Readers",
+     "checklist": [
+      {
+       "text": "Use Encryption for Data Transfer",
+       "pillar": "C"
+      },
+      {
+       "text": "Change Default Admin Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Update Firmware",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Access Levels and Zones",
+       "pillar": "C"
+      },
+      {
+       "text": "Monitor and Log Access Attempts",
+       "pillar": "I"
+      },
+      {
+       "text": "Two-Factor Authentication for Admins",
+       "pillar": "I"
+      },
+      {
+       "text": "Regular Backups of Access List",
+       "pillar": "I"
+      },
+      {
+       "text": "Disable Unneeded Features",
+       "pillar": "A"
+      },
+      {
+       "text": "Secure Communication Protocols",
+       "pillar": "A"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Cloning",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use encrypted cards"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Monitor access logs"
+       ]
+      },
+      {
+       "name": "Tampering",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Physical security measures"
+       ]
+      },
+      {
+       "name": "Firmware Vulnerabilities",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Update firmware"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Firewalls",
+     "checklist": [
+      {
+       "text": "Change Default Admin Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Keep Firmware Updated",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Rule-based Access",
+       "pillar": "C"
+      },
+      {
+       "text": "Enable Intrusion Detection/Prevention",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Review and Update Rules",
+       "pillar": "I"
+      },
+      {
+       "text": "Log and Monitor All Traffic",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Geo-Blocking as Needed",
+       "pillar": "I"
+      },
+      {
+       "text": "Limit Management Access",
+       "pillar": "A"
+      },
+      {
+       "text": "Disable Unneeded Services",
+       "pillar": "A"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Misconfigurations",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Regularly review and update configurations"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use strong authentication and logging"
+       ]
+      },
+      {
+       "name": "Outdated Rulesets",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Periodic rule set reviews"
+       ]
+      },
+      {
+       "name": "Bypass Attacks",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Monitor for unusual traffic patterns"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Communication Equipment",
+     "checklist": [
+      {
+       "text": "Change Default Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Update Firmware/Software Regularly",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Communications",
+       "pillar": "C"
+      },
+      {
+       "text": "Disable Unneeded Services/Ports",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Management Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Logging and Monitoring",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Network Segmentation",
+       "pillar": "I"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "A"
+      },
+      {
+       "text": "Regular Backups",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure Protocols (e.g., SSL/TLS)",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Eavesdropping",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use encrypted communication"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Change default credentials"
+       ]
+      },
+      {
+       "name": "Insecure Protocols",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure protocols (e.g., SSH, SFTP)"
+       ]
+      },
+      {
+       "name": "Firmware Vulnerabilities",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Update firmware"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Data Storage",
+     "checklist": [
+      {
+       "text": "Encrypt Data at Rest",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Access to Data",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Backups",
+       "pillar": "C"
+      },
+      {
+       "text": "Use RAID for Redundancy",
+       "pillar": "C"
+      },
+      {
+       "text": "Monitor Disk Health",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Role-based Access Control",
+       "pillar": "I"
+      },
+      {
+       "text": "Keep Storage Software Updated",
+       "pillar": "I"
+      },
+      {
+       "text": "Secure Physical Access",
+       "pillar": "A"
+      },
+      {
+       "text": "Enable Logging and Auditing",
+       "pillar": "A"
+      },
+      {
+       "text": "Data Retention and Disposal Policy",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Data Breaches",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use encryption at rest"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement access controls"
+       ]
+      },
+      {
+       "name": "Data Corruption",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular backups"
+       ]
+      },
+      {
+       "name": "Physical Theft",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Physical security measures"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Printer",
+     "checklist": [
+      {
+       "text": "Change Default Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Update Firmware Regularly",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Network Access to Printer",
+       "pillar": "C"
+      },
+      {
+       "text": "Disable Unneeded Features (e.g., Cloud Printing)",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Secure Printing Features",
+       "pillar": "I"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "I"
+      },
+      {
+       "text": "Encrypt Print Jobs if Possible",
+       "pillar": "I"
+      },
+      {
+       "text": "Log Print Jobs",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure Protocols",
+       "pillar": "A"
+      },
+      {
+       "text": "Regularly Clear Print Queue",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Change default credentials"
+       ]
+      },
+      {
+       "name": "Print Job Interception",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure print jobs"
+       ]
+      },
+      {
+       "name": "Firmware Vulnerabilities",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Update firmware"
+       ]
+      },
+      {
+       "name": "Information Disclosure",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Secure disposal of print waste"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CCTV",
+     "checklist": [
+      {
+       "text": "Change Default Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Update Camera Firmware",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Video Feeds",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Remote Access to Cameras",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Review and Backup Footage",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Motion Detection",
+       "pillar": "I"
+      },
+      {
+       "text": "Physical Security",
+       "pillar": "I"
+      },
+      {
+       "text": "Use Secure Protocols for Data Transfer",
+       "pillar": "A"
+      },
+      {
+       "text": "Restrict Camera Control Access",
+       "pillar": "A"
+      },
+      {
+       "text": "Network Segmentation for Cameras",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Change default credentials"
+       ]
+      },
+      {
+       "name": "Data Interception",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Encrypt transmissions"
+       ]
+      },
+      {
+       "name": "Physical Tampering",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure camera placements"
+       ]
+      },
+      {
+       "name": "Outdated Firmware",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Update firmware"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Software",
+   "categories": [
+    {
+     "name": "Application Software",
+     "checklist": [
+      {
+       "text": "Regularly Update Software",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit User Permissions",
+       "pillar": "C"
+      },
+      {
+       "text": "Secure Configuration Settings",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Secure Data Storage Methods",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Role-based Access Control",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Logging and Monitoring",
+       "pillar": "I"
+      },
+      {
+       "text": "Encrypt Sensitive Data",
+       "pillar": "I"
+      },
+      {
+       "text": "Disable Unused Features",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure APIs",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Input Validation",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Software Bugs",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Regular code reviews"
+       ]
+      },
+      {
+       "name": "Inadequate Input Validation",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Validate inputs"
+       ]
+      },
+      {
+       "name": "Dependency Vulnerabilities",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Keep dependencies updated"
+       ]
+      },
+      {
+       "name": "Insecure Configurations",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Follow secure coding practices"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Anti-virus Software",
+     "checklist": [
+      {
+       "text": "Keep Definitions Updated",
+       "pillar": "C"
+      },
+      {
+       "text": "Enable Real-time Scanning",
+       "pillar": "C"
+      },
+      {
+       "text": "Schedule Regular Full Scans",
+       "pillar": "C"
+      },
+      {
+       "text": "Protect Software Configuration with Passwords",
+       "pillar": "C"
+      },
+      {
+       "text": "Monitor Software Logs",
+       "pillar": "I"
+      },
+      {
+       "text": "Isolate Infected Systems",
+       "pillar": "I"
+      },
+      {
+       "text": "Update Software Regularly",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Heuristic Analysis",
+       "pillar": "A"
+      },
+      {
+       "text": "Restrict USB and External Drives",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Multi-layer Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Outdated Definitions",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Regular updates"
+       ]
+      },
+      {
+       "name": "Bypass Techniques",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Monitor logs"
+       ]
+      },
+      {
+       "name": "Software Vulnerabilities",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Patch software"
+       ]
+      },
+      {
+       "name": "Inadequate Scanning",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Comprehensive scan settings"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Business Applications",
+     "checklist": [
+      {
+       "text": "Regular Software Updates",
+       "pillar": "C"
+      },
+      {
+       "text": "Configure Secure User Permissions",
+       "pillar": "C"
+      },
+      {
+       "text": "Enable Logging and Auditing",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Business Data",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Secure Communication Protocols",
+       "pillar": "I"
+      },
+      {
+       "text": "Role-based Access Control",
+       "pillar": "I"
+      },
+      {
+       "text": "Backup Data Regularly",
+       "pillar": "I"
+      },
+      {
+       "text": "Input Data Validation",
+       "pillar": "A"
+      },
+      {
+       "text": "Training on Secure Use",
+       "pillar": "A"
+      },
+      {
+       "text": "Disable Unnecessary Modules",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Weak Authentication",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Strong authentication measures"
+       ]
+      },
+      {
+       "name": "Data Breaches",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Data encryption"
+       ]
+      },
+      {
+       "name": "Insecure APIs",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure API practices"
+       ]
+      },
+      {
+       "name": "Misconfigurations",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Best-practice configurations"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Network Management System Software",
+     "checklist": [
+      {
+       "text": "Change Default Credentials",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Strong Authentication",
+       "pillar": "C"
+      },
+      {
+       "text": "Network Segmentation for Management Traffic",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Software Updates",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Sensitive Data",
+       "pillar": "I"
+      },
+      {
+       "text": "Log and Monitor System Activities",
+       "pillar": "I"
+      },
+      {
+       "text": "Disable Unused Features",
+       "pillar": "I"
+      },
+      {
+       "text": "Backup Configuration Regularly",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure Protocols",
+       "pillar": "A"
+      },
+      {
+       "text": "Role-based Access Control",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Strong authentication"
+       ]
+      },
+      {
+       "name": "Inadequate Monitoring",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Enhanced monitoring"
+       ]
+      },
+      {
+       "name": "Misconfigurations",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Best-practice configurations"
+       ]
+      },
+      {
+       "name": "Insecure Alerts",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure alert channels"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Operating Systems",
+     "checklist": [
+      {
+       "text": "Install Security Patches Regularly",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit User Privileges",
+       "pillar": "C"
+      },
+      {
+       "text": "Disable Unnecessary Services",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement File System Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Strong Password Policies",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Firewall and Intrusion Detection",
+       "pillar": "I"
+      },
+      {
+       "text": "Harden System Configurations",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable System Logging and Monitoring",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement User Account Control",
+       "pillar": "A"
+      },
+      {
+       "text": "Remove Unused Applications",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Unpatched Vulnerabilities",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Regular updates and patches"
+       ]
+      },
+      {
+       "name": "Weak Authentication",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use strong authentication"
+       ]
+      },
+      {
+       "name": "Misconfigurations",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Harden OS configurations"
+       ]
+      },
+      {
+       "name": "Legacy Protocols",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Disable legacy protocols"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Data Management and Database Software",
+     "checklist": [
+      {
+       "text": "Regular Updates and Patching",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Database Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Database Access",
+       "pillar": "C"
+      },
+      {
+       "text": "Backup Database Regularly",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Strong Authentication Mechanisms",
+       "pillar": "I"
+      },
+      {
+       "text": "Monitor Database Logs",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Role-based Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Disable Unused Features",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure Connection Strings",
+       "pillar": "A"
+      },
+      {
+       "text": "Input and SQL Injection Prevention",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "SQL Injections",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Validate and sanitize inputs"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement strict access controls"
+       ]
+      },
+      {
+       "name": "Data Leaks",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Encrypt data at rest"
+       ]
+      },
+      {
+       "name": "Insecure Backups",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Secure backup methods"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Office Productivity Software (Microsoft Office)",
+     "checklist": [
+      {
+       "text": "Install Updates and Patches",
+       "pillar": "C"
+      },
+      {
+       "text": "Macro Security Settings",
+       "pillar": "C"
+      },
+      {
+       "text": "Document Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit User Privileges",
+       "pillar": "C"
+      },
+      {
+       "text": "Enable Document Tracking and Logging",
+       "pillar": "I"
+      },
+      {
+       "text": "Use Templates Wisely",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Content Controls",
+       "pillar": "I"
+      },
+      {
+       "text": "Restrict External Content",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Data Loss Prevention",
+       "pillar": "A"
+      },
+      {
+       "text": "Password-protect Documents",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Macro Malware",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Disable macros"
+       ]
+      },
+      {
+       "name": "Document Metadata Leaks",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Cleanse metadata"
+       ]
+      },
+      {
+       "name": "Unpatched Vulnerabilities",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Update regularly"
+       ]
+      },
+      {
+       "name": "Phishing Risks",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Educate users on phishing threats"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Email Servers and Clients",
+     "checklist": [
+      {
+       "text": "Use Secure Protocols (TLS, SSL)",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Anti-phishing Measures",
+       "pillar": "C"
+      },
+      {
+       "text": "Update Software Regularly",
+       "pillar": "C"
+      },
+      {
+       "text": "Backup Email Data",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Email Filtering",
+       "pillar": "I"
+      },
+      {
+       "text": "Restrict Email Attachments",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Two-factor Authentication",
+       "pillar": "I"
+      },
+      {
+       "text": "Limit Email Broadcasting",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Email Encryption",
+       "pillar": "A"
+      },
+      {
+       "text": "Monitor for Suspicious Activities",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Phishing Attacks",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement strong spam filters"
+       ]
+      },
+      {
+       "name": "Malware Delivery",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Scan attachments"
+       ]
+      },
+      {
+       "name": "Man-in-the-Middle",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Use SSL/TLS"
+       ]
+      },
+      {
+       "name": "Email Spoofing",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Implement DMARC/DKIM/SPF"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Backup and Recovery Software",
+     "checklist": [
+      {
+       "text": "Encrypt Backup Data",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Test Backup Integrity",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Access to Backups",
+       "pillar": "C"
+      },
+      {
+       "text": "Store Backups in Secure Locations",
+       "pillar": "C"
+      },
+      {
+       "text": "Automate Regular Backups",
+       "pillar": "I"
+      },
+      {
+       "text": "Update Software Regularly",
+       "pillar": "I"
+      },
+      {
+       "text": "Monitor Backup Logs",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Multi-factor Authentication",
+       "pillar": "A"
+      },
+      {
+       "text": "Store Multiple Backup Copies",
+       "pillar": "A"
+      },
+      {
+       "text": "Plan for Disaster Recovery",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Insecure Backups",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Encrypt backups"
+       ]
+      },
+      {
+       "name": "Incomplete Backups",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular backup verification"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Implement strict access controls"
+       ]
+      },
+      {
+       "name": "Data Corruption",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Use checksums"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Development Tools and Platforms",
+     "checklist": [
+      {
+       "text": "Regular Software Updates",
+       "pillar": "C"
+      },
+      {
+       "text": "Restrict and Monitor Access",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Source Code Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Secure Coding Practices",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Code Reviews",
+       "pillar": "I"
+      },
+      {
+       "text": "Maintain Dependency Integrity",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Version Control",
+       "pillar": "I"
+      },
+      {
+       "text": "Enable Logging and Auditing",
+       "pillar": "A"
+      },
+      {
+       "text": "Maintain a Secure Development Environment",
+       "pillar": "A"
+      },
+      {
+       "text": "Stay Updated with Latest Security Best Practices",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Insecure Code",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Regular code reviews"
+       ]
+      },
+      {
+       "name": "Weak Dependencies",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Use reputable dependencies"
+       ]
+      },
+      {
+       "name": "Misconfigurations",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Harden configurations"
+       ]
+      },
+      {
+       "name": "Inadequate Version Control",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Implement version control best practices"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Information",
+   "categories": [
+    {
+     "name": "Intellectual Property (IP)",
+     "checklist": [
+      {
+       "text": "Access Control Restrictions",
+       "pillar": "C"
+      },
+      {
+       "text": "Encryption of Sensitive IP Data",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Audits",
+       "pillar": "C"
+      },
+      {
+       "text": "Non-disclosure Agreements (NDAs)",
+       "pillar": "C"
+      },
+      {
+       "text": "Watermarking and Digital Rights Management",
+       "pillar": "I"
+      },
+      {
+       "text": "Limit Data Reproduction",
+       "pillar": "I"
+      },
+      {
+       "text": "Monitor and Log Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Secure Physical Storage",
+       "pillar": "A"
+      },
+      {
+       "text": "Backup Regularly in Secure Location",
+       "pillar": "A"
+      },
+      {
+       "text": "Regularly Update IP Protection Mechanisms",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Theft",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Encrypt sensitive IP"
+       ]
+      },
+      {
+       "name": "Unauthorized Sharing",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Control and log access"
+       ]
+      },
+      {
+       "name": "Accidental Leaks",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular training sessions"
+       ]
+      },
+      {
+       "name": "Infringement",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Legal protection mechanisms"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Customer Data",
+     "checklist": [
+      {
+       "text": "End-to-End Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Role-based Access Control",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Data Integrity Checks",
+       "pillar": "C"
+      },
+      {
+       "text": "Restrict Data Export/Transfer",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Strict Privacy Policies",
+       "pillar": "I"
+      },
+      {
+       "text": "Regularly Audit Data Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Data Retention Policies",
+       "pillar": "I"
+      },
+      {
+       "text": "Anonymization and Data Masking",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Multi-factor Authentication",
+       "pillar": "A"
+      },
+      {
+       "text": "Ensure Legal and Regulatory Compliance",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Data Breaches",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Use strong encryption"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Control and log access"
+       ]
+      },
+      {
+       "name": "Data Corruption",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular backups"
+       ]
+      },
+      {
+       "name": "Data Sharing Without Consent",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement strict data-sharing policies"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Financial Data",
+     "checklist": [
+      {
+       "text": "Strong Encryption Standards",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Access to Key Personnel",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Audits of Financial Transactions",
+       "pillar": "C"
+      },
+      {
+       "text": "Backup Data in Secure Offsite Locations",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Financial Fraud Detection",
+       "pillar": "I"
+      },
+      {
+       "text": "Restrict Data Printing",
+       "pillar": "I"
+      },
+      {
+       "text": "Review and Update Financial Protocols",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure Regulatory Compliance",
+       "pillar": "A"
+      },
+      {
+       "text": "Secure Physical Access to Financial Data",
+       "pillar": "A"
+      },
+      {
+       "text": "Use Secure Communication Channels",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Fraud",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement fraud detection"
+       ]
+      },
+      {
+       "name": "Unauthorized Transactions",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Monitor and control transactions"
+       ]
+      },
+      {
+       "name": "Data Breaches",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Encrypt financial data"
+       ]
+      },
+      {
+       "name": "Inaccurate Reporting",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular audits"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Employee Data",
+     "checklist": [
+      {
+       "text": "Protect with Strong Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Access to HR and Management",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Data Integrity Audits",
+       "pillar": "C"
+      },
+      {
+       "text": "Backup in Secure Environments",
+       "pillar": "C"
+      },
+      {
+       "text": "Maintain Data Privacy Policies",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure Compliance with Employment Laws",
+       "pillar": "I"
+      },
+      {
+       "text": "Regularly Update Access Controls",
+       "pillar": "I"
+      },
+      {
+       "text": "Anonymize and Aggregate for Analysis",
+       "pillar": "A"
+      },
+      {
+       "text": "Secure Physical Records Storage",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Strong Authentication Mechanisms",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Data Breaches",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Encrypt sensitive data"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Control and log access"
+       ]
+      },
+      {
+       "name": "Data Misuse",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Implement strict data-sharing policies"
+       ]
+      },
+      {
+       "name": "Inaccurate Data Retention",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regularly review and purge data"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Business Plans and Strategies",
+     "checklist": [
+      {
+       "text": "Restricted Access Controls",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Sensitive Documents",
+       "pillar": "C"
+      },
+      {
+       "text": "Use Secure Collaboration Tools",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Digital Watermarking",
+       "pillar": "C"
+      },
+      {
+       "text": "Regular Review of Access Logs",
+       "pillar": "I"
+      },
+      {
+       "text": "Store in Secure Digital and Physical Environments",
+       "pillar": "I"
+      },
+      {
+       "text": "Backup with Encryption",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure NDAs for Relevant Personnel",
+       "pillar": "A"
+      },
+      {
+       "text": "Limit Data Reproduction and Distribution",
+       "pillar": "A"
+      },
+      {
+       "text": "Review and Update Security Protocols",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Corporate Espionage",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Secure sensitive documents"
+       ]
+      },
+      {
+       "name": "Unauthorized Sharing",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Limit access"
+       ]
+      },
+      {
+       "name": "Accidental Leaks",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Employee training"
+       ]
+      },
+      {
+       "name": "Outdated Plans",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Regularly update plans"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Supplier and Vendor Data",
+     "checklist": [
+      {
+       "text": "Secure Data Transfer Protocols",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Vendor Data Management Policies",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Sensitive Vendor Information",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Audit Supplier Interactions",
+       "pillar": "C"
+      },
+      {
+       "text": "Restrict and Monitor Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Backup Supplier Data Securely",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure Regulatory and Contractual Compliance",
+       "pillar": "I"
+      },
+      {
+       "text": "Limit Data Sharing Among Employees",
+       "pillar": "A"
+      },
+      {
+       "text": "Review Supplier Data Privacy Policies",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Multi-layered Security",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Data Breaches",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Encrypt sensitive data"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Control and log access"
+       ]
+      },
+      {
+       "name": "Contractual Breaches",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular contract reviews"
+       ]
+      },
+      {
+       "name": "Inaccurate Record-Keeping",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Implement data validation checks"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Backup Tapes and Archives",
+     "checklist": [
+      {
+       "text": "Secure Physical Storage",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Data on Tapes",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Access to Backup Locations",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Test Backup Restoration",
+       "pillar": "C"
+      },
+      {
+       "text": "Maintain Environmental Controls (e.g., Humidity, Temperature)",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure Proper Labeling and Inventory",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Offsite Backup Storage",
+       "pillar": "I"
+      },
+      {
+       "text": "Restrict and Monitor Transportation of Tapes",
+       "pillar": "A"
+      },
+      {
+       "text": "Regularly Rotate and Update Backups",
+       "pillar": "A"
+      },
+      {
+       "text": "Ensure Safe Disposal Protocols",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Data Degradation",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Store in controlled environments"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Limit access"
+       ]
+      },
+      {
+       "name": "Physical Theft",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Physical security"
+       ]
+      },
+      {
+       "name": "Incomplete Backups",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular backup validation"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Databases and Data Files/Soft Copies",
+     "checklist": [
+      {
+       "text": "Database Encryption",
+       "pillar": "C"
+      },
+      {
+       "text": "Regularly Patch and Update Database Software",
+       "pillar": "C"
+      },
+      {
+       "text": "Implement Database Firewall",
+       "pillar": "C"
+      },
+      {
+       "text": "Monitor Database Activity Logs",
+       "pillar": "C"
+      },
+      {
+       "text": "Backup Databases Securely",
+       "pillar": "I"
+      },
+      {
+       "text": "Implement Role-based Database Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Prevent SQL Injection and Other Attacks",
+       "pillar": "I"
+      },
+      {
+       "text": "Use Secure Database Connection Protocols",
+       "pillar": "A"
+      },
+      {
+       "text": "Periodic Vulnerability Assessments",
+       "pillar": "A"
+      },
+      {
+       "text": "Restrict Direct Database Modifications",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "SQL Injections",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Validate and sanitize inputs"
+       ]
+      },
+      {
+       "name": "Unauthorized Access",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Implement strict access controls"
+       ]
+      },
+      {
+       "name": "Data Corruption",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Regular backups"
+       ]
+      },
+      {
+       "name": "Data Leaks",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Encrypt data at rest"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "User Manuals and Training Material",
+     "checklist": [
+      {
+       "text": "Limit Distribution to Necessary Personnel",
+       "pillar": "C"
+      },
+      {
+       "text": "Encrypt Digital Versions",
+       "pillar": "C"
+      },
+      {
+       "text": "Watermark Physical and Digital Copies",
+       "pillar": "C"
+      },
+      {
+       "text": "Secure Storage for Physical Copies",
+       "pillar": "C"
+      },
+      {
+       "text": "Monitor and Log Digital Access",
+       "pillar": "I"
+      },
+      {
+       "text": "Regularly Update and Version Control",
+       "pillar": "I"
+      },
+      {
+       "text": "Backup Training Material",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure Proper Disposal of Outdated Material",
+       "pillar": "A"
+      },
+      {
+       "text": "Limit External Sharing",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Digital Rights Management if Necessary",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Outdated Information",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Regularly update materials"
+       ]
+      },
+      {
+       "name": "Misuse by Unauthorized Parties",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Limit distribution"
+       ]
+      },
+      {
+       "name": "Inaccurate Content",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Review for accuracy"
+       ]
+      },
+      {
+       "name": "Unauthorized Sharing",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Control and log access"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Marketing and Sales Data",
+     "checklist": [
+      {
+       "text": "Encrypt Sensitive Marketing Data",
+       "pillar": "C"
+      },
+      {
+       "text": "Limit Access Based on Roles",
+       "pillar": "C"
+      },
+      {
+       "text": "Monitor and Audit Data Access",
+       "pillar": "C"
+      },
+      {
+       "text": "Backup Data in Secure Locations",
+       "pillar": "C"
+      },
+      {
+       "text": "Analyze Data in Aggregated and Anonymized Form",
+       "pillar": "I"
+      },
+      {
+       "text": "Ensure Compliance with Marketing Regulations",
+       "pillar": "I"
+      },
+      {
+       "text": "Restrict External Data Sharing",
+       "pillar": "I"
+      },
+      {
+       "text": "Secure Storage for Physical Marketing Data",
+       "pillar": "A"
+      },
+      {
+       "text": "Regularly Review and Update Marketing Data",
+       "pillar": "A"
+      },
+      {
+       "text": "Implement Strong Authentication Protocols",
+       "pillar": "A"
+      }
+     ],
+     "vulnerabilities": [
+      {
+       "name": "Competitor Espionage",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Protect sensitive strategies"
+       ]
+      },
+      {
+       "name": "Data Breaches",
+       "likelihood": "HIGH",
+       "mitigations": [
+        "Encrypt sensitive data"
+       ]
+      },
+      {
+       "name": "Misinterpretation",
+       "likelihood": "LOW",
+       "mitigations": [
+        "Regular training sessions"
+       ]
+      },
+      {
+       "name": "Unauthorized Sharing",
+       "likelihood": "MEDIUM",
+       "mitigations": [
+        "Implement strict data-sharing policies"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "vulnerabilities": [
+  {
+   "name": "Accidental Leaks",
+   "mitigations": [
+    "Implement strict data handling and sharing policies",
+    "Provide training on data privacy and protection",
+    "Use technical controls like DLP to prevent unintentional data exposure"
+   ],
+   "source": "prototype:dependency (Accidental Disclosure); prototype:risk_mapping"
+  },
+  {
+   "name": "Business Logic Flaws",
+   "mitigations": [
+    "Incorporate threat modeling in the design phase",
+    "Perform regular security assessments focusing on business logic",
+    "Educate developers on recognizing and avoiding logic flaws"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Bypass Attacks",
+   "mitigations": [
+    "Regularly update intrusion detection and prevention systems",
+    "Conduct penetration testing to identify potential bypass avenues",
+    "Implement rigorous access controls"
+   ],
+   "source": "prototype:dependency (Bypassing Mechanisms); prototype:risk_mapping"
+  },
+  {
+   "name": "Bypass Techniques",
+   "mitigations": [
+    "Regularly update intrusion detection and prevention systems",
+    "Conduct penetration testing to identify potential bypass avenues",
+    "Implement rigorous access controls"
+   ],
+   "source": "prototype:dependency (Bypassing Mechanisms); prototype:risk_mapping"
+  },
+  {
+   "name": "Cloning",
+   "mitigations": [
+    "Implement tamper-evident designs on hardware",
+    "Utilize advanced encryption for transactional data",
+    "Educate users on safely using devices and checking for suspicious hardware"
+   ],
+   "source": "prototype:dependency (Cloning and Skimming); prototype:risk_mapping"
+  },
+  {
+   "name": "Competitor Espionage",
+   "mitigations": [
+    "Protect sensitive business information with strict access controls",
+    "Conduct counter-intelligence assessments",
+    "Educate staff on the risks and signs of espionage"
+   ],
+   "source": "prototype:dependency (Competitor Espionage); prototype:risk_mapping"
+  },
+  {
+   "name": "Contractual Breaches",
+   "mitigations": [
+    "Have legal review contracts for clarity and comprehensiveness",
+    "Educate involved parties on contractual obligations",
+    "Implement monitoring mechanisms to ensure compliance"
+   ],
+   "source": "prototype:dependency (Contractual Breaches); prototype:risk_mapping"
+  },
+  {
+   "name": "Corporate Espionage",
+   "mitigations": [
+    "Limit access to trade secrets and sensitive data",
+    "Regularly monitor and audit access to confidential information",
+    "Conduct background checks on employees with access to sensitive data"
+   ],
+   "source": "prototype:dependency (Industrial Espionage); prototype:risk_mapping"
+  },
+  {
+   "name": "Data Breaches",
+   "mitigations": [
+    "Strengthen data access controls",
+    "Enhance monitoring and alerting capabilities for suspicious activities",
+    "Educate employees on best practices and signs of breaches"
+   ],
+   "source": "prototype:dependency (Data Breaches); prototype:risk_mapping"
+  },
+  {
+   "name": "Data Corruption",
+   "mitigations": [
+    "Maintain consistent data backups",
+    "Implement rigorous data validation processes",
+    "Educate employees on safe data handling and storage practices"
+   ],
+   "source": "prototype:dependency (Corruption of Data); prototype:risk_mapping"
+  },
+  {
+   "name": "Data Degradation",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Data Exposure",
+   "mitigations": [
+    "Restrict access to sensitive data",
+    "Encrypt data both at rest and in transit",
+    "Perform regular audits to identify exposed data"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Data Interception",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Data Leaks",
+   "mitigations": [
+    "Implement data loss prevention (DLP) tools",
+    "Educate employees about the importance of safeguarding data",
+    "Regularly monitor and audit data movements"
+   ],
+   "source": "prototype:dependency (Data Leakage); prototype:risk_mapping"
+  },
+  {
+   "name": "Data Misuse",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Data Sharing Without Consent",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Data Storage Vulnerabilities",
+   "mitigations": [
+    "Utilize secure data storage solutions with built-in redundancy",
+    "Regularly audit data storage configurations",
+    "Implement data loss prevention (DLP) tools"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Default Credentials",
+   "mitigations": [
+    "Mandate changing default credentials upon initial setup",
+    "Regularly audit device and software credentials",
+    "Use unique credentials for each device or software"
+   ],
+   "source": "prototype:dependency (Default Credentials); prototype:risk_mapping"
+  },
+  {
+   "name": "Dependency Vulnerabilities",
+   "mitigations": [
+    "Regularly audit third-party libraries and components for vulnerabilities",
+    "Limit reliance on external dependencies",
+    "Update dependencies to their most secure versions"
+   ],
+   "source": "prototype:dependency (Insecure Dependencies); prototype:risk_mapping"
+  },
+  {
+   "name": "Document Metadata Leaks",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Eavesdropping",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Email Spoofing",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Firmware Vulnerabilities",
+   "mitigations": [
+    "Regular firmware updates and checks",
+    "Purchase hardware from reputable vendors",
+    "Isolate vulnerable devices from the network"
+   ],
+   "source": "prototype:dependency (Firmware Vulnerabilities); prototype:risk_mapping"
+  },
+  {
+   "name": "Fraud",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Fraudulent Transactions",
+   "mitigations": [
+    "Implement multi-factor authentication for transactions",
+    "Monitor transactions for unusual patterns",
+    "Educate customers and employees about recognizing and reporting fraud"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inaccurate Content",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Inaccurate Data Retention",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Inaccurate Record-Keeping",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Inaccurate Reporting",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Inadequate Access Controls",
+   "mitigations": [
+    "Define clear roles and permissions for users",
+    "Regularly review and update access controls",
+    "Implement a principle of least privilege approach"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inadequate Backup Frequency",
+   "mitigations": [
+    "Set and adhere to a rigorous backup schedule based on business needs",
+    "Monitor backup processes for failures and address them promptly",
+    "Regularly review and adjust backup frequency based on data criticality"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inadequate Data Handling Procedures",
+   "mitigations": [
+    "Develop and enforce strict data handling and storage protocols",
+    "Provide regular training on data management",
+    "Conduct regular audits on data handling practices"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inadequate Data Protection Measures",
+   "mitigations": [
+    "Review and update data protection policies and mechanisms regularly",
+    "Implement advanced data protection tools",
+    "Conduct regular training on data protection best practices"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inadequate Encryption",
+   "mitigations": [
+    "Upgrade to latest encryption standards",
+    "Ensure end-to-end encryption for data in transit",
+    "Use trusted and vetted encryption libraries"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inadequate Input Validation",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Inadequate Monitoring",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Inadequate Scanning",
+   "mitigations": [
+    "Employ advanced real-time threat detection solutions",
+    "Ensure scanning tools are updated frequently",
+    "Monitor system logs for unusual activity patterns"
+   ],
+   "source": "prototype:dependency (Inadequate Real-time Scanning); prototype:risk_mapping"
+  },
+  {
+   "name": "Inadequate Spam Filters",
+   "mitigations": [
+    "Invest in advanced spam filtering solutions",
+    "Regularly update spam filter definitions",
+    "Educate users to recognize and report potential spam"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Inadequate Version Control",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Incomplete Backups",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Information Disclosure",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Infringement",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure APIs",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure Alerts",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure Backups",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure Code",
+   "mitigations": [
+    "Integrate security into the development lifecycle",
+    "Conduct regular code reviews and security audits",
+    "Provide ongoing security training to developers"
+   ],
+   "source": "prototype:dependency (Insecure Development Practices); prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure Configuration",
+   "mitigations": [
+    "Follow industry standard configuration hardening guides",
+    "Periodically audit system configurations",
+    "Train IT staff on secure configuration practices"
+   ],
+   "source": "prototype:dependency (Insecure Configuration); prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure Configurations",
+   "mitigations": [
+    "Follow industry standard configuration hardening guides",
+    "Periodically audit system configurations",
+    "Train IT staff on secure configuration practices"
+   ],
+   "source": "prototype:dependency (Insecure Configuration); prototype:risk_mapping"
+  },
+  {
+   "name": "Insecure Data Storage",
+   "mitigations": [
+    "Use encrypted storage solutions",
+    "Conduct regular security audits of storage facilities",
+    "Adopt data minimization principles"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Insecure Data Transfer",
+   "mitigations": [
+    "Use secure protocols like HTTPS for data transfer",
+    "Encrypt sensitive data before transmission",
+    "Avoid transmission of sensitive data over public networks without secure tunnels"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Insecure Protocols",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Interception of Communications",
+   "mitigations": [],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Lack of Confidentiality Controls",
+   "mitigations": [
+    "Implement strong encryption and access controls for confidential data",
+    "Educate staff on the importance of confidentiality",
+    "Conduct regular audits of confidential data access"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Legacy Protocols",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Macro Malware",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Macro Vulnerabilities",
+   "mitigations": [
+    "Disable macros from running in office documents by default",
+    "Educate users about the risks of enabling macros",
+    "Regularly update and patch office software"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Malware Delivery",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Man-in-the-Middle",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Misconfigurations",
+   "mitigations": [
+    "Conduct routine configuration audits",
+    "Implement automated configuration management tools",
+    "Training for staff on secure configuration practices"
+   ],
+   "source": "prototype:dependency (Misconfiguration); prototype:risk_mapping"
+  },
+  {
+   "name": "Misinterpretation",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Misleading Information",
+   "mitigations": [
+    "Regularly review and validate data sources",
+    "Provide training on information validation and verification",
+    "Implement mechanisms to correct misleading information quickly"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Misuse by Unauthorized Parties",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Network Vulnerabilities",
+   "mitigations": [
+    "Employ network segmentation practices",
+    "Conduct periodic network vulnerability assessments",
+    "Ensure firewalls and intrusion detection systems are properly configured"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Open Wireless",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Outdated Antivirus/Antimalware",
+   "mitigations": [
+    "Schedule regular antivirus updates and scans",
+    "Implement real-time malware detection",
+    "User training on safe web practices"
+   ],
+   "source": "prototype:dependency (Outdated Antivirus/Antimalware); prototype:risk_mapping"
+  },
+  {
+   "name": "Outdated Definitions",
+   "mitigations": [
+    "Automate updates for software and libraries",
+    "Educate users about the risks of using outdated software",
+    "Review software and third-party library dependencies regularly"
+   ],
+   "source": "prototype:dependency (Outdated Definitions); prototype:risk_mapping"
+  },
+  {
+   "name": "Outdated Firmware",
+   "mitigations": [
+    "Implement regular firmware update schedules",
+    "Isolate devices with non-updatable firmware",
+    "Opt for hardware providers that support long-term firmware updates"
+   ],
+   "source": "prototype:dependency (Outdated Firmware); prototype:risk_mapping"
+  },
+  {
+   "name": "Outdated Information",
+   "mitigations": [
+    "Implement data lifecycle management practices",
+    "Regularly review and update stored information",
+    "Educate staff on the importance of data accuracy"
+   ],
+   "source": "prototype:dependency (Outdated Information); prototype:risk_mapping"
+  },
+  {
+   "name": "Outdated Plans",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Outdated Rulesets",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Phishing Attacks",
+   "mitigations": [
+    "Conduct regular phishing awareness trainings",
+    "Implement email filtering solutions",
+    "Regularly update and educate users about latest phishing tactics"
+   ],
+   "source": "prototype:dependency (Phishing Vulnerabilities); prototype:risk_mapping"
+  },
+  {
+   "name": "Phishing Risks",
+   "mitigations": [
+    "Conduct regular phishing awareness trainings",
+    "Implement email filtering solutions",
+    "Regularly update and educate users about latest phishing tactics"
+   ],
+   "source": "prototype:dependency (Phishing Vulnerabilities); prototype:risk_mapping"
+  },
+  {
+   "name": "Physical Damage",
+   "mitigations": [
+    "Establish physical barriers around sensitive equipment",
+    "Install environmental monitoring tools like smoke and water detectors",
+    "Ensure data and power redundancy to handle unforeseen damage"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Physical Tampering",
+   "mitigations": [
+    "Enhance physical security measures around sensitive equipment",
+    "Implement tamper-evident designs on hardware",
+    "Conduct regular security audits on physical sites"
+   ],
+   "source": "prototype:dependency (Physical Tampering); prototype:risk_mapping"
+  },
+  {
+   "name": "Physical Theft",
+   "mitigations": [
+    "Secure physical assets with locks and access controls",
+    "Implement device tracking solutions",
+    "Educate staff on the importance of device security and tracking"
+   ],
+   "source": "prototype:dependency (Physical Theft or Loss); prototype:risk_mapping"
+  },
+  {
+   "name": "Print Job Interception",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Rogue Access Points",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "SQL Injections",
+   "mitigations": [
+    "Use parameterized queries and prepared statements",
+    "Regularly test applications for injection vulnerabilities",
+    "Educate developers on secure coding practices against injections"
+   ],
+   "source": "prototype:dependency (SQL Injection); prototype:risk_mapping"
+  },
+  {
+   "name": "Software Bugs",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Software Vulnerabilities",
+   "mitigations": [
+    "Adopt a secure software development lifecycle (SDLC)",
+    "Conduct regular code audits and vulnerability assessments",
+    "Educate developers about security best practices"
+   ],
+   "source": "prototype:dependency (Software Vulnerabilities); prototype:risk_mapping"
+  },
+  {
+   "name": "Storage of Sensitive Data",
+   "mitigations": [
+    "Implement data-at-rest encryption techniques",
+    "Regularly review stored data and purge unnecessary sensitive information",
+    "Educate users on data minimization practices"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Tampering",
+   "mitigations": [
+    "Enhance physical security measures around sensitive equipment",
+    "Implement tamper-evident designs on hardware",
+    "Conduct regular security audits on physical sites"
+   ],
+   "source": "prototype:dependency (Physical Tampering); prototype:risk_mapping"
+  },
+  {
+   "name": "Theft",
+   "mitigations": [
+    "Secure physical areas and assets with access controls and surveillance",
+    "Educate employees about handling sensitive information",
+    "Implement tracking mechanisms for high-value assets"
+   ],
+   "source": "prototype:dependency (Theft or Misappropriation); prototype:risk_mapping"
+  },
+  {
+   "name": "Unauthorized Access",
+   "mitigations": [
+    "Strengthen authentication processes",
+    "Periodically review and update access controls",
+    "Implement intrusion detection and prevention systems"
+   ],
+   "source": "prototype:dependency (Unauthorized Access); prototype:risk_mapping"
+  },
+  {
+   "name": "Unauthorized Access to Print Jobs",
+   "mitigations": [
+    "Secure printing environments with access controls",
+    "Implement print job encryption",
+    "Educate users on safely retrieving print jobs promptly"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unauthorized Data Access",
+   "mitigations": [],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unauthorized Sharing",
+   "mitigations": [
+    "Implement strict access controls on data repositories",
+    "Monitor data transfers and sharing",
+    "Educate staff on data sharing policies and consequences of breaches"
+   ],
+   "source": "prototype:dependency (Unauthorized Distribution); prototype:risk_mapping"
+  },
+  {
+   "name": "Unauthorized Transactions",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Unencrypted Backups",
+   "mitigations": [
+    "Always encrypt backups, especially offsite or cloud backups",
+    "Regularly test backup and restore processes",
+    "Store backups in secure, access-controlled environments"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unencrypted Data",
+   "mitigations": [],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unencrypted Sensitive Data",
+   "mitigations": [
+    "Use encryption technologies for data-at-rest and data-in-transit",
+    "Regularly audit encryption protocols",
+    "Educate users on data protection"
+   ],
+   "source": "prototype:dependency (Unencrypted Sensitive Data); prototype:risk_mapping"
+  },
+  {
+   "name": "Unnecessary Services Running",
+   "mitigations": [
+    "Regularly audit system services and disable those not required",
+    "Use firewalls to restrict access to services",
+    "Keep software footprints minimal to reduce attack surface"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unpatched Firmware",
+   "mitigations": [],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unpatched OS Vulnerabilities",
+   "mitigations": [
+    "Maintain an automated OS patch management system",
+    "Educate users on the importance of regular OS updates",
+    "Isolate systems that cannot be updated immediately from critical networks"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unpatched Software",
+   "mitigations": [
+    "Implement automated patch management systems",
+    "Regularly review software versions",
+    "User awareness on the importance of updates"
+   ],
+   "source": "prototype:dependency (Unpatched Software); prototype:risk_mapping"
+  },
+  {
+   "name": "Unpatched Software Vulnerabilities",
+   "mitigations": [],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Unpatched Vulnerabilities",
+   "mitigations": [],
+   "source": "prototype:risk_mapping"
+  },
+  {
+   "name": "Unprotected Management Interfaces",
+   "mitigations": [
+    "Use VPNs or authenticated channels for management",
+    "Limit and monitor access to management interfaces",
+    "Apply strict authentication protocols for management access"
+   ],
+   "source": "prototype:dependency (Unprotected Management Interfaces); prototype:risk_mapping"
+  },
+  {
+   "name": "Weak Access Controls",
+   "mitigations": [],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Weak Authentication",
+   "mitigations": [
+    "Implement multi-factor authentication (MFA)",
+    "Regularly update and strengthen authentication protocols",
+    "Provide user training on authentication best practices"
+   ],
+   "source": "prototype:dependency (Weak Authentication Mechanisms); prototype:risk_mapping"
+  },
+  {
+   "name": "Weak Authentication/Authorization",
+   "mitigations": [
+    "Mandate strong password policies and MFA",
+    "Define clear user roles and access levels",
+    "Regularly audit user permissions and access logs"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Weak Dependencies",
+   "mitigations": [
+    "Regularly audit third-party libraries and components for vulnerabilities",
+    "Limit reliance on external dependencies",
+    "Update dependencies to their most secure versions"
+   ],
+   "source": "prototype:dependency (Insecure Dependencies); prototype:risk_mapping"
+  },
+  {
+   "name": "Weak Encryption",
+   "mitigations": [
+    "Upgrade to stronger encryption algorithms",
+    "Limit and monitor access to encryption keys",
+    "Regularly review and update encryption protocols"
+   ],
+   "source": "prototype:dependency (Weak Encryption); prototype:risk_mapping"
+  },
+  {
+   "name": "Weak File Protections",
+   "mitigations": [
+    "Use file encryption for sensitive files",
+    "Implement strict file permission controls",
+    "Regularly audit file access logs"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Weak Protection Mechanisms",
+   "mitigations": [
+    "Regularly review and update security mechanisms",
+    "Invest in advanced threat protection solutions",
+    "Conduct periodic vulnerability assessments"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Weak or Default Credentials",
+   "mitigations": [
+    "Mandate password changes upon first use",
+    "Regularly audit and reset default credentials",
+    "Implement strong password policies"
+   ],
+   "source": "prototype:dependency"
+  },
+  {
+   "name": "Weak or No Password Protection",
+   "mitigations": [
+    "Enforce strong password policies",
+    "Implement multi-factor authentication",
+    "Regularly review and audit user access"
+   ],
+   "source": "prototype:dependency (Weak or No Password Protection); prototype:risk_mapping"
+  }
+ ]
+}

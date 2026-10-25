@@ -1,0 +1,43 @@
+{% load static custard %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}CuSTaRD{% endblock %} · CuSTaRD</title>
+  <link rel="stylesheet" href="{% static 'custard/app.css' %}">
+  <link rel="icon" href="{% static 'custard/favicon.svg' %}" type="image/svg+xml">
+  <script src="{% static 'custard/app.js' %}" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="brand">CuSTaRD<small>Cyber Support Tool for Risk Decisions</small></div>
+    {% has_perm "inventory.view_asset" as can_assets %}{% has_perm "risk.view_assetrisk" as can_risks %}
+    {% has_perm "reporting.view_report" as can_reports %}{% has_perm "catalog.view_assetcategory" as can_catalog %}
+    {% has_perm "core.view_auditevent" as can_audit %}
+    <ul class="nav">
+      {% if can_assets %}<li><a href="{% url 'dashboard' %}" class="{% if nav == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+      <li><a href="{% url 'asset_list' %}" class="{% if nav == 'assets' %}active{% endif %}">Assets</a></li>{% endif %}
+      {% if can_risks %}<li><a href="{% url 'risk_list' %}" class="{% if nav == 'risks' %}active{% endif %}">Risk register</a></li>
+      <li><a href="{% url 'dependency_map' %}" class="{% if nav == 'dependencies' %}active{% endif %}">Dependency map</a></li>{% endif %}
+      {% if can_reports %}<li><a href="{% url 'report_list' %}" class="{% if nav == 'reports' %}active{% endif %}">Reports</a></li>{% endif %}
+      {% if can_catalog %}<li class="nav-section">Configuration</li>
+      <li><a href="{% url 'catalog_index' %}" class="{% if nav == 'catalog' %}active{% endif %}">Knowledge base</a></li>{% endif %}
+      {% if can_audit %}<li><a href="{% url 'audit_log' %}" class="{% if nav == 'audit' %}active{% endif %}">Audit log</a></li>{% endif %}
+      {% if user.is_staff %}<li><a href="{{ admin_url }}">Administration</a></li>{% endif %}
+    </ul>
+    <div class="user">
+      <div><strong>{{ user.get_full_name|default:user.get_username }}</strong></div>
+      <div class="muted small">{% for g in user.groups.all %}{{ g.name }}{% if not forloop.last %}, {% endif %}{% empty %}{% if user.is_superuser %}Superuser{% else %}No role assigned{% endif %}{% endfor %}</div>
+      <div class="small"><a href="{% url 'password_change' %}">Change password</a> ·
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="linklike">Sign out</button></form></div>
+    </div>
+  </aside>
+  <main class="main" id="main">
+    {% if messages %}<ul class="messages">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>{% endif %}
+    {% block content %}{% endblock %}
+    <p class="muted small">CuSTaRD {{ custard_version }} · {{ organisation_name }}</p>
+  </main>
+</div>
+</body>
+</html>

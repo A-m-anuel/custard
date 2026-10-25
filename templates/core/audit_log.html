@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}Audit log{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Audit log</h1><p>Append-only record of sign-ins, changes, assessments, acceptances, exports and reports.</p></div></div>
+<form class="filters" method="get">
+  <div class="field"><label for="action">Action</label><select id="action" name="action" data-autosubmit><option value="">All actions</option>{% for v, l in actions %}<option value="{{ v }}"{% if action == v %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="actor">User</label><input type="search" id="actor" name="actor" value="{{ actor }}"></div>
+  <button class="btn" type="submit">Apply</button>
+</form>
+<div class="card"><div class="table-wrap"><table>
+  <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Object</th><th>Details</th><th>IP</th></tr></thead>
+  <tbody>{% for e in page_obj %}
+    <tr><td class="nowrap">{{ e.timestamp|date:"Y-m-d H:i:s" }}</td><td>{{ e.actor_repr|default:"system" }}</td><td>{{ e.get_action_display }}</td>
+      <td>{{ e.object_repr }}<div class="muted small">{{ e.object_type }}</div></td>
+      <td class="small">{% if e.changes %}{{ e.changes|changes_text|truncatechars:200 }}{% endif %}</td><td class="small mono">{{ e.ip_address|default:"" }}</td></tr>
+  {% empty %}<tr><td colspan="6" class="empty">No events.</td></tr>{% endfor %}</tbody>
+</table></div>{% include "includes/pagination.html" %}</div>
+{% endblock %}

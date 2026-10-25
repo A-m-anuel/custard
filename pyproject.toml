@@ -1,0 +1,28 @@
+[project]
+name = "custard"
+version = "2.0.0"
+description = "CuSTaRD - Cyber Support Tool for Risk Decisions: asset inventory, CIA checklist scoring and NIST SP 800-30 risk management."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Amanuel Abate Seid" }]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "S", "UP", "DJ"]
+ignore = ["S101", "S311", "DJ001", "B904"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S105", "S106"]
+
+[tool.coverage.run]
+source = ["custard", "config"]
+omit = ["*/migrations/*", "*/management/commands/seed_demo.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

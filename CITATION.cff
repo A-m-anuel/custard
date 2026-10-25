@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use CuSTaRD, please cite the dissertation it is based on."
+title: "CuSTaRD - Cyber Support Tool for Risk Decisions"
+type: software
+authors:
+  - family-names: Seid
+    given-names: Amanuel Abate
+version: 2.0.0
+license: MIT
+repository-code: "https://github.com/A-m-anuel/custard"
+preferred-citation:
+  type: thesis
+  thesis-type: "MSc dissertation"
+  title: "CuSTaRD - A Cyber Support Tool for Risk Decisions"
+  authors:
+    - family-names: Seid
+      given-names: Amanuel Abate
+  institution:
+    name: "University of Manchester"
+  year: 2023

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{% if creating %}Register asset{% else %}Edit {{ asset }}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'asset_list' %}">Assets</a>{% if asset %} / <a href="{{ asset.get_absolute_url }}">{{ asset }}</a>{% endif %}</div>
+  <h1>{% if creating %}Register asset{% else %}Edit asset{% endif %}</h1>
+  {% if creating %}<p>Categorise the asset; CuSTaRD maps its typical weaknesses, likelihoods and mitigations automatically.</p>{% endif %}
+</div></div>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% include "includes/form_errors.html" %}
+  <div class="grid {% if creating %}grid-main{% endif %}">
+    <div>
+      <section class="card">
+        <h2>Asset</h2>
+        <div class="form-grid">
+          {% include "includes/field.html" with field=form.name %}
+          {% include "includes/field.html" with field=form.category %}
+          {% include "includes/field.html" with field=form.owner %}
+          {% include "includes/field.html" with field=form.location %}
+          {% include "includes/field.html" with field=form.description full=True %}
+        </div>
+      </section>
+      <section class="card">
+        <h2>Business impact (asset value)</h2>
+        <p class="muted small">Impact of a compromise on each security objective. The highest of the three is used for risk scoring (high-water mark).</p>
+        <div class="form-grid">
+          {% include "includes/field.html" with field=form.impact_confidentiality %}
+          {% include "includes/field.html" with field=form.impact_integrity %}
+          {% include "includes/field.html" with field=form.impact_availability %}
+        </div>
+      </section>
+      {% if creating %}
+      <section class="card checklist">
+        <h2>Security checklist</h2>
+        <p class="muted small">Tick each control that is in place. Checks are grouped by confidentiality, integrity and availability.</p>
+        <input type="hidden" name="checklist_submitted" id="checklist_submitted" value="0">
+        <div id="checklist" data-checked="{{ form.checklist_ids|default_if_none:''|join:',' }}"></div>
+        <p id="checklist-noscript" class="muted">You can complete the checklist after saving.</p>
+        {% include "includes/field.html" with field=form.notes %}
+      </section>
+      {% endif %}
+      <div class="form-foot">
+        <button class="btn primary" type="submit">{% if creating %}Register asset{% else %}Save changes{% endif %}</button>
+        <a class="btn" href="{% if asset %}{{ asset.get_absolute_url }}{% else %}{% url 'asset_list' %}{% endif %}">Cancel</a>
+      </div>
+    </div>
+    {% if creating %}
+    <aside>
+      <div class="card score-preview hidden" id="score-preview" data-threshold="{{ exposure_threshold }}">
+        <h2>Security score</h2>
+        <div class="big" data-score="overall">—</div>
+        <p><span data-status></span></p>
+        <div class="pillars">
+          <div class="pillar"><div class="label">Confidentiality</div><div class="value" data-score="C">—</div></div>
+          <div class="pillar"><div class="label">Integrity</div><div class="value" data-score="I">—</div></div>
+          <div class="pillar"><div class="label">Availability</div><div class="value" data-score="A">—</div></div>
+        </div>
+        <p class="muted small">(C + I + A) / 30 × 10. Preview only; the server calculates the stored score.</p>
+      </div>
+    </aside>
+    {% endif %}
+  </div>
+</form>
+{% if creating %}{{ checklists|json_script:"checklist-data" }}{% endif %}
+{% endblock %}

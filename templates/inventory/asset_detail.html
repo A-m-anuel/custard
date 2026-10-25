@@ -1,0 +1,92 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}{{ asset }}{% endblock %}
+{% block content %}
+{% has_perm "inventory.change_asset" as can_change %}{% has_perm "inventory.add_assessment" as can_assess %}{% has_perm "risk.add_assetrisk" as can_add_risk %}
+<div class="page-head">
+  <div>
+    <div class="crumbs"><a href="{% url 'asset_list' %}">Assets</a> / {{ asset.category.asset_type.name }} / {{ asset.category.name }}</div>
+    <h1>{{ asset.name }} {% if not asset.is_active %}<span class="badge archived">Archived</span>{% endif %}</h1>
+    {% if asset.description %}<p>{{ asset.description }}</p>{% endif %}
+  </div>
+  <div class="actions">
+    {% if can_assess %}<a class="btn primary" href="{% url 'asset_assess' asset.pk %}">{% if asset.is_assessed %}Reassess{% else %}Assess{% endif %}</a>{% endif %}
+    {% if can_change %}<a class="btn" href="{% url 'asset_edit' asset.pk %}">Edit</a>
+    <form method="post" action="{% url 'asset_archive' asset.pk %}" data-confirm="{% if asset.is_active %}Archive this asset? It will be hidden from dashboards and reports.{% else %}Restore this asset?{% endif %}">{% csrf_token %}
+      {% if not asset.is_active %}<input type="hidden" name="restore" value="1">{% endif %}
+      <button class="btn{% if asset.is_active %} danger{% endif %}" type="submit">{% if asset.is_active %}Archive{% else %}Restore{% endif %}</button></form>{% endif %}
+  </div>
+</div>
+
+<div class="grid grid-main">
+  <section class="card">
+    <h2>Security score</h2>
+    {% if asset.is_assessed %}
+      <p><span class="score xl {{ asset|score_css }}">{{ asset.security_score|floatformat:2 }}</span> <span class="muted">/ 10</span>
+      {% if asset.is_exposed %}<span class="badge exposed">Exposed - needs mitigation</span>{% else %}<span class="badge ok">At or above threshold</span>{% endif %}</p>
+      <div class="pillars">
+        <div class="pillar"><div class="label">Confidentiality</div><div class="value">{{ asset.confidentiality_score|default_if_none:"n/a" }}</div>{% minibar asset.confidentiality_score %}</div>
+        <div class="pillar"><div class="label">Integrity</div><div class="value">{{ asset.integrity_score|default_if_none:"n/a" }}</div>{% minibar asset.integrity_score %}</div>
+        <div class="pillar"><div class="label">Availability</div><div class="value">{{ asset.availability_score|default_if_none:"n/a" }}</div>{% minibar asset.availability_score %}</div>
+      </div>
+      <p class="muted small stack-gap">Last assessed {{ asset.last_assessed_at|date:"j M Y H:i" }}{% if latest %} by {{ latest.assessed_by|default:"system" }}: {{ latest.implemented_count }} of {{ latest.responses|length }} controls in place{% endif %}.</p>
+    {% else %}
+      <p class="muted">Not assessed yet. {% if can_assess %}<a href="{% url 'asset_assess' asset.pk %}">Complete the security checklist</a> to calculate the score.{% endif %}</p>
+    {% endif %}
+  </section>
+  <section class="card">
+    <h2>Details</h2>
+    <dl class="props">
+      <dt>Type</dt><dd>{{ asset.category.asset_type.name }}</dd>
+      <dt>Category</dt><dd><a href="{% url 'category_detail' asset.category.pk %}">{{ asset.category.name }}</a></dd>
+      <dt>Owner</dt><dd>{{ asset.owner|default:"—" }}</dd>
+      <dt>Location</dt><dd>{{ asset.location|default:"—" }}</dd>
+      <dt>Impact C / I / A</dt><dd>{{ asset.get_impact_confidentiality_display }} / {{ asset.get_impact_integrity_display }} / {{ asset.get_impact_availability_display }}</dd>
+      <dt>Overall impact</dt><dd>{% include "includes/level.html" with level=asset.impact label=asset.get_impact_display %}</dd>
+      <dt>Registered</dt><dd>{{ asset.created_at|date:"j M Y" }}{% if asset.created_by %} by {{ asset.created_by }}{% endif %}</dd>
+    </dl>
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-head"><h2>Risks ({{ risks|length }})</h2>
+    <div class="actions">
+      {% if can_add_risk %}<form method="post" action="{% url 'asset_sync_risks' asset.pk %}">{% csrf_token %}<button class="btn small" type="submit" title="Apply the category's current default risk mapping">Refresh risk mapping</button></form>
+      <a class="btn small" href="{% url 'risk_add' asset.pk %}">Add risk</a>{% endif %}
+    </div></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Vulnerability</th><th>Likelihood</th><th>Impact</th><th>Risk</th><th>Residual</th><th>Status</th><th>Treatments</th></tr></thead>
+    <tbody>
+    {% for r in risks %}
+      <tr>
+        <td><a href="{{ r.get_absolute_url }}">{{ r.vulnerability.name }}</a>{% if r.source == "MANUAL" %} <span class="badge neutral">manual</span>{% endif %}</td>
+        <td>{{ r.get_likelihood_display }}</td>
+        <td>{{ r.get_impact_display }}</td>
+        <td class="nowrap">{% include "includes/level.html" with level=r.inherent_level label=r.inherent_score %} {{ r.get_inherent_level_display }}</td>
+        <td class="nowrap">{% if r.residual_level %}{% include "includes/level.html" with level=r.residual_level label=r.residual_score %}{% else %}<span class="muted">—</span>{% endif %}</td>
+        <td class="nowrap">{{ r.get_status_display }}</td>
+        <td class="small">{% for t in r.treatments.all %}{{ t.mitigation.name }} <span class="muted">({{ t.get_status_display|lower }})</span>{% if not forloop.last %}<br>{% endif %}{% empty %}<span class="muted">none</span>{% endfor %}</td>
+      </tr>
+    {% empty %}<tr><td colspan="7" class="empty">No risks mapped for this category yet.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+</section>
+
+<div class="grid grid-2">
+  <section class="card">
+    <h2>Assessment history</h2>
+    {% if assessments %}<div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>By</th><th class="right">C</th><th class="right">I</th><th class="right">A</th><th class="right">Score</th></tr></thead>
+      <tbody>{% for x in assessments %}<tr><td class="nowrap">{{ x.assessed_at|date:"j M Y H:i" }}</td><td>{{ x.assessed_by|default:"—" }}</td>
+        <td class="right num">{{ x.confidentiality_score|default_if_none:"–" }}</td><td class="right num">{{ x.integrity_score|default_if_none:"–" }}</td>
+        <td class="right num">{{ x.availability_score|default_if_none:"–" }}</td><td class="right"><span class="score {{ x.security_score|score_css }}">{{ x.security_score }}</span></td></tr>{% endfor %}</tbody>
+    </table></div>{% else %}<p class="muted">No assessments yet.</p>{% endif %}
+  </section>
+  {% if audit_trail is not None %}
+  <section class="card">
+    <h2>Audit trail</h2>
+    {% if audit_trail %}<ul class="plain small">{% for e in audit_trail %}<li><span class="muted">{{ e.timestamp|date:"j M Y H:i" }}</span> · {{ e.actor_repr|default:"system" }} · {{ e.get_action_display }}{% if e.changes %} <span class="muted">{{ e.changes|changes_text|truncatechars:120 }}</span>{% endif %}</li>{% endfor %}</ul>
+    {% else %}<p class="muted">No events.</p>{% endif %}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

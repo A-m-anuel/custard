@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}Knowledge base{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Knowledge base</h1><p>Asset categories with their CIA security checklists and default risk mappings. {{ vulnerability_count }} vulnerabilities and {{ mitigation_count }} mitigations in the library.</p></div>
+  {% has_perm "catalog.add_assetcategory" as can_add %}
+  <div class="actions">{% if can_add %}<a class="btn primary" href="{% url 'category_create' %}">Add category</a>{% endif %}</div>
+</div>
+{% for t in types %}
+<section class="card">
+  <h2>{{ t.name }}</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Category</th><th class="right">Checklist items</th><th class="right">Default weaknesses</th><th class="right">Active assets</th></tr></thead>
+    <tbody>{% for c in t.categories.all %}
+      <tr><td><a href="{% url 'category_detail' c.pk %}">{{ c.name }}</a>{% if c.is_custom %} <span class="badge neutral">custom</span>{% endif %}{% if not c.is_active %} <span class="badge archived">inactive</span>{% endif %}</td>
+        <td class="right num">{{ c.checks }}</td><td class="right num">{{ c.weaknesses }}</td><td class="right num">{{ c.asset_count }}</td></tr>
+    {% empty %}<tr><td colspan="4" class="empty">No categories.</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+{% endfor %}
+{% endblock %}

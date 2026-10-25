@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Import assets{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'asset_list' %}">Assets</a></div>
+  <h1>Import assets from CSV</h1>
+  <p>Move an existing asset spreadsheet into CuSTaRD. Each imported asset gets its category's default risks.</p>
+</div></div>
+<div class="grid grid-main">
+  <section class="card">
+    <form method="post" enctype="multipart/form-data" class="stack">
+      {% csrf_token %}
+      {% include "includes/form_errors.html" %}
+      {% include "includes/field.html" with field=form.file %}
+      {% include "includes/field.html" with field=form.dry_run %}
+      <div class="form-foot"><button class="btn primary" type="submit">Upload</button></div>
+    </form>
+    {% if result %}
+      {% if result.errors %}
+        <h3 class="stack-gap">Nothing was imported - fix these rows and upload again</h3>
+        <ul class="form-errors">{% for e in result.errors|slice:":50" %}<li>{{ e }}</li>{% endfor %}{% if result.errors|length > 50 %}<li>… and {{ result.errors|length|add:"-50" }} more</li>{% endif %}</ul>
+      {% endif %}
+    {% endif %}
+  </section>
+  <aside class="card">
+    <h2>File format</h2>
+    <p class="small">UTF-8 CSV with a header row. Only <code>name</code> and <code>category</code> are required. The import is all-or-nothing.</p>
+    <ul class="plain small">{% for c in columns %}<li><code>{{ c }}</code></li>{% endfor %}</ul>
+    <p class="small stack-gap"><code>category</code> must match a knowledge-base category name. <code>owner</code> is a username or e-mail. Impacts are High, Medium or Low.</p>
+    <a class="btn small" href="{% url 'asset_import_template' %}">Download template</a>
+  </aside>
+</div>
+{% endblock %}

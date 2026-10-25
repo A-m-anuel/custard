@@ -1,0 +1,80 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Security posture</h1><p>Assets, checklist scores and risks across {{ organisation_name }}.</p></div>
+  <div class="actions">
+    {% has_perm "inventory.add_asset" as can_add %}{% has_perm "reporting.generate_report" as can_report %}
+    {% if can_add %}<a class="btn" href="{% url 'asset_create' %}">Register asset</a>{% endif %}
+    {% if can_report %}<form method="post" action="{% url 'report_generate' %}">{% csrf_token %}<button class="btn primary" type="submit">Generate PDF report</button></form>{% endif %}
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="metric"><div class="label">Registered assets</div><div class="value">{{ p.total_assets }}</div></div>
+  <div class="metric"><div class="label">Average security score</div><div class="value">{% if p.average_score is None %}—{% else %}{{ p.average_score }} <small>/ 10</small>{% endif %}</div></div>
+  <div class="metric{% if p.exposed_assets %} alert{% endif %}"><div class="label">Exposed assets (score &lt; {{ exposure_threshold|floatformat:"-1" }})</div><div class="value"><a href="{% url 'asset_list' %}?status=exposed">{{ p.exposed_assets|length }}</a></div></div>
+  <div class="metric"><div class="label">Asset categories in use</div><div class="value">{{ p.categories_in_use }}</div></div>
+  <div class="metric{% if p.open_risks_by_level.HIGH %} alert{% endif %}"><div class="label">Unresolved high risks</div><div class="value"><a href="{% url 'risk_list' %}?level=HIGH">{{ p.open_risks_by_level.HIGH }}</a></div></div>
+  <div class="metric{% if p.overdue_treatments %} alert{% endif %}"><div class="label">Overdue treatments</div><div class="value"><a href="{% url 'risk_list' %}?flag=overdue&amp;status=all">{{ p.overdue_treatments }}</a></div></div>
+</div>
+
+{% if p.expired_acceptances %}
+<div class="callout warn">{{ p.expired_acceptances|length }} accepted risk{{ p.expired_acceptances|length|pluralize }} passed {{ p.expired_acceptances|length|pluralize:"its,their" }} review date. <a href="{% url 'risk_list' %}?flag=expired&amp;status=all">Review now</a>.</div>
+{% endif %}
+{% if p.total_assets and p.assessed_assets < p.total_assets %}
+<div class="callout">{{ p.total_assets }} asset{{ p.total_assets|pluralize }} registered, {{ p.assessed_assets }} assessed. <a href="{% url 'asset_list' %}?status=unassessed">Assess the remaining assets</a> to include them in the score.</div>
+{% endif %}
+
+<div class="grid grid-main top">
+  <section class="card">
+    <div class="card-head"><h2>Security score by asset</h2>
+      <div class="legend"><span class="k-exposed">Exposed</span><span class="k-ok">At or above threshold</span><span class="k-threshold">Threshold {{ exposure_threshold|floatformat:"-1" }}</span></div></div>
+    {% if score_chart %}{{ score_chart }}{% if chart_truncated %}<p class="muted small">Showing the 60 lowest-scoring assets. <a href="{% url 'asset_list' %}?sort=score">See all</a>.</p>{% endif %}
+    {% else %}<p class="empty">No assets yet. <a href="{% url 'asset_create' %}">Register the first asset</a>.</p>{% endif %}
+  </section>
+
+  <div>
+    <section class="card">
+      <h2>Risk heat map</h2>
+      <p class="muted small">Unresolved risks by likelihood and impact (NIST SP 800-30).</p>
+      <table class="heat" aria-label="Risk heat map">
+        <tr><th></th>{% for label in impact_labels %}<th class="axis">{{ label }}</th>{% endfor %}</tr>
+        {% for row in heat_rows %}<tr><th class="axis">{{ row.likelihood }}</th>
+          {% for c in row.cells %}<td class="cell {{ c.css }}{% if not c.count %} zero{% endif %}" title="Likelihood {{ row.likelihood }}, impact {{ c.impact }}">{{ c.count }}</td>{% endfor %}</tr>{% endfor %}
+        <tr><th></th><th colspan="3" class="axis small">Impact →  (rows: likelihood)</th></tr>
+      </table>
+    </section>
+    <section class="card">
+      <h2>Assets by category</h2>
+      {% if p.category_counts %}<ul class="plain">{% for c in p.category_counts|slice:":8" %}<li>{{ c.category__name }} <span class="muted right">· {{ c.n }}</span></li>{% endfor %}</ul>{% else %}<p class="muted">None yet.</p>{% endif %}
+    </section>
+  </div>
+</div>
+
+<div class="grid grid-2 top">
+  <section class="card">
+    <div class="card-head"><h2>Exposed assets</h2><a class="small" href="{% url 'asset_list' %}?status=exposed">All exposed</a></div>
+    {% if p.exposed_assets %}
+    <div class="table-wrap"><table><thead><tr><th>Asset</th><th>Category</th><th class="right">Score</th></tr></thead><tbody>
+      {% for a in p.exposed_assets|slice:":10" %}<tr><td><a href="{{ a.get_absolute_url }}">{{ a.name }}</a></td><td>{{ a.category.name }}</td><td class="right"><span class="score exposed">{{ a.security_score|floatformat:2 }}</span></td></tr>{% endfor %}
+    </tbody></table></div>
+    {% else %}<p class="empty">No assessed asset is below the threshold.</p>{% endif %}
+  </section>
+  <section class="card">
+    <div class="card-head"><h2>Top unresolved risks</h2><a class="small" href="{% url 'risk_list' %}">Risk register</a></div>
+    {% if p.top_risks %}
+    <div class="table-wrap"><table><thead><tr><th>Risk</th><th>Asset</th><th class="right">Score</th></tr></thead><tbody>
+      {% for r in p.top_risks %}<tr><td><a href="{{ r.get_absolute_url }}">{{ r.vulnerability.name }}</a></td><td>{{ r.asset.name }}</td>
+        <td class="right nowrap">{% include "includes/level.html" with level=r.inherent_level label=r.inherent_score %}</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% else %}<p class="empty">No unresolved risks.</p>{% endif %}
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-head"><h2>Reporting</h2><a class="small" href="{% url 'report_list' %}">All reports</a></div>
+  {% if last_report %}<p>Last report: <a href="{{ last_report.get_download_url }}">{{ last_report.title }}</a>. {{ new_since_report }} asset{{ new_since_report|pluralize }} registered since then.</p>
+  {% else %}<p class="muted">No report generated yet.</p>{% endif %}
+</section>
+{% endblock %}

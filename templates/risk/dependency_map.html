@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Dependency map{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Dependency map</h1><p>How assets, security weaknesses and mitigations connect. A mitigation linked to several weaknesses removes several risks at once.</p></div>
+</div>
+<form class="filters" method="get">
+  <div class="field"><label for="category">Category</label><select id="category" name="category" data-autosubmit><option value="">All categories</option>{% for c in categories %}<option value="{{ c.pk }}"{% if category_id == c.pk|stringformat:"s" %} selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="asset">Asset</label><select id="asset" name="asset" data-autosubmit><option value="">All assets</option>{% for a in assets %}<option value="{{ a.pk }}"{% if asset_id == a.pk|stringformat:"s" %} selected{% endif %}>{{ a.name }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="scope">Risks</label><select id="scope" name="scope" data-autosubmit><option value="unresolved"{% if scope == "unresolved" %} selected{% endif %}>Unresolved only</option><option value="all"{% if scope == "all" %} selected{% endif %}>All</option></select></div>
+  <button class="btn" type="submit">Apply</button>
+</form>
+{% if too_many %}
+  <div class="callout">{{ asset_count }} assets have risks in this view. Pick a category or an asset to keep the map readable.</div>
+{% elif svg %}
+  <div class="legend stack-gap"><span class="k-asset">Asset</span><span class="k-high">High risk</span><span class="k-medium">Medium risk</span><span class="k-low">Low risk</span><span class="k-mitigation">Mitigation</span><span class="k-line-done">Implemented</span><span class="k-line-todo">Not yet implemented</span></div>
+  <div class="graph-wrap stack-gap">{{ svg }}</div>
+{% else %}
+  <div class="card"><p class="empty">No risks in this view.</p></div>
+{% endif %}
+{% if svg %}
+<section class="card stack-gap">
+  <h2>Mitigations with the widest effect</h2>
+  <p class="muted small">Prioritise controls that address several weaknesses to avoid redundant work.</p>
+  {% if shared %}<div class="table-wrap"><table><thead><tr><th>Mitigation</th><th class="right">Weaknesses</th><th>Addresses</th></tr></thead><tbody>
+  {% for m in shared %}<tr><td>{{ m.name }}<div class="muted small">{{ m.detail }}</div></td><td class="right num">{{ m.count }}</td><td class="small">{{ m.weaknesses|join:", " }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<p class="muted">No mitigation in this view addresses more than one weakness. Widen the filter to find shared controls.</p>{% endif %}
+</section>
+{% endif %}
+{% endblock %}

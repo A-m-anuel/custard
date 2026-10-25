@@ -1,0 +1,114 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}{{ risk.vulnerability }} · {{ risk.asset }}{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'risk_list' %}">Risk register</a> / <a href="{{ risk.asset.get_absolute_url }}">{{ risk.asset }}</a></div>
+  <h1>{{ risk.vulnerability.name }}</h1>
+  <p>{% include "includes/level.html" with level=risk.inherent_level label=risk.get_inherent_level_display %} inherent risk {{ risk.inherent_score }}
+    {% if risk.residual_level %} · residual {% include "includes/level.html" with level=risk.residual_level label=risk.residual_score %}{% endif %}
+    · {{ risk.get_status_display }}{% if risk.source == "MANUAL" %} · added manually{% else %} · mapped from category {{ risk.asset.category.name }}{% endif %}</p>
+</div></div>
+
+<div class="grid grid-main top">
+  <div>
+    <section class="card">
+      <h2>Recommended action</h2>
+      <p>{{ risk.recommended_action }}</p>
+      <p class="muted small">NIST SP 800-30, Table 3-7 (level: {{ risk.current_level|title }}).</p>
+      {% if risk.vulnerability.description %}<p>{{ risk.vulnerability.description }}</p>{% endif %}
+      {% if risk.vulnerability.reference %}<p class="small">Reference: {{ risk.vulnerability.reference }}</p>{% endif %}
+    </section>
+  </div>
+  <aside>
+    <section class="card">
+      <h2>Risk-level matrix</h2>
+      <table class="heat" aria-label="NIST SP 800-30 risk-level matrix">
+        <tr><th></th><th class="axis">Low</th><th class="axis">Medium</th><th class="axis">High</th></tr>
+        {% for row in matrix %}<tr><th class="axis">{{ row.label }}</th>{% for c in row.cells %}<td class="cell {{ c.css }}{% if c.current %} current{% endif %}{% if c.residual %} residual{% endif %}">{{ c.score }}</td>{% endfor %}</tr>{% endfor %}
+        <tr><th></th><th colspan="3" class="axis small">Impact →</th></tr>
+      </table>
+      <p class="muted small">Solid outline: inherent ({{ risk.get_likelihood_display }} × {{ risk.get_impact_display }}). Dashed: residual. Rows: likelihood.</p>
+      <dl class="props small">
+        <dt>Asset impact</dt><dd>{{ risk.asset.get_impact_display }} (C {{ risk.asset.get_impact_confidentiality_display }}, I {{ risk.asset.get_impact_integrity_display }}, A {{ risk.asset.get_impact_availability_display }})</dd>
+        <dt>Owner</dt><dd>{{ risk.owner|default:"—" }}</dd>
+      </dl>
+    </section>
+  </aside>
+</div>
+
+<section class="card treatments">
+  <h2>Treatment plan</h2>
+  {% if treatment_forms %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>Mitigation</th><th>Status</th><th>Owner</th><th>Due</th><th>Notes</th><th></th></tr></thead>
+    <tbody>
+    {% for t, tf in treatment_forms %}
+      <tr>
+        {% if tf %}
+        <td><strong>{{ t.mitigation.name }}</strong>{% if t.is_overdue %}<div><span class="badge exposed">overdue</span></div>{% endif %}{% if t.completed_at %}<div class="muted small">done {{ t.completed_at|date:"j M Y" }}</div>{% endif %}</td>
+        <td><form id="tf{{ t.pk }}" method="post" action="{% url 'treatment_update' t.pk %}">{% csrf_token %}</form>{{ tf.status.as_widget }}</td>
+        <td>{{ tf.owner.as_widget }}</td><td>{{ tf.due_date.as_widget }}</td><td>{{ tf.notes.as_widget }}</td>
+        <td><button class="btn small" type="submit" form="tf{{ t.pk }}">Save</button></td>
+        {% else %}
+        <td>{{ t.mitigation.name }}</td><td>{{ t.get_status_display }}</td><td>{{ t.owner|default:"—" }}</td><td>{{ t.due_date|default:"—" }}</td><td>{{ t.notes }}</td><td></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  <p class="muted small">When every applicable treatment is implemented the risk becomes <em>Mitigated</em> with a residual likelihood of Low (NIST: controls "significantly impede" exploitation). You can override the residual likelihood below.</p>
+  {% else %}<p class="muted">No treatments yet.</p>{% endif %}
+  {% if add_treatment_form %}
+  <details class="stack-gap"><summary>Add a treatment</summary>
+    <form method="post" action="{% url 'treatment_add' risk.pk %}" class="stack-gap">{% csrf_token %}
+      <div class="form-grid">
+        {% include "includes/field.html" with field=add_treatment_form.mitigation %}
+        {% include "includes/field.html" with field=add_treatment_form.new_mitigation %}
+        {% include "includes/field.html" with field=add_treatment_form.owner %}
+        {% include "includes/field.html" with field=add_treatment_form.due_date %}
+      </div>
+      <div class="form-foot"><button class="btn" type="submit">Add treatment</button></div>
+    </form>
+  </details>
+  {% endif %}
+</section>
+<div class="grid grid-main top">
+  <div>
+    {% if form %}
+    <section class="card">
+      <h2>Assessment</h2>
+      <form method="post">{% csrf_token %}
+        {% include "includes/form_errors.html" %}
+        <div class="form-grid">
+          {% include "includes/field.html" with field=form.likelihood %}
+          {% include "includes/field.html" with field=form.impact_override %}
+          {% include "includes/field.html" with field=form.residual_likelihood %}
+          {% include "includes/field.html" with field=form.owner %}
+          {% include "includes/field.html" with field=form.status %}
+          {% include "includes/field.html" with field=form.notes full=True %}
+        </div>
+        <div class="form-foot"><button class="btn primary" type="submit">Save</button></div>
+      </form>
+    </section>
+    {% endif %}
+  </div>
+  <aside>
+    <section class="card">
+      <h2>Risk acceptance</h2>
+      {% if risk.status == "ACCEPTED" %}
+        <p>Accepted by {{ risk.accepted_by|default:"—" }} on {{ risk.accepted_at|date:"j M Y" }}. Review by <strong>{{ risk.acceptance_review_date|date:"j M Y" }}</strong>{% if risk.acceptance_expired %} <span class="badge exposed">overdue</span>{% endif %}.</p>
+        <p class="small">{{ risk.acceptance_justification|linebreaksbr }}</p>
+        {% has_perm "risk.accept_risk" as can_accept %}
+        {% if can_accept %}<form method="post" action="{% url 'risk_reopen' risk.pk %}" data-confirm="Withdraw the acceptance and reopen this risk?">{% csrf_token %}<button class="btn small" type="submit">Withdraw acceptance</button></form>{% endif %}
+      {% elif accept_form %}
+        <p class="muted small">Formally retain the risk with a business justification. Acceptances expire on the review date.</p>
+        <form method="post" action="{% url 'risk_accept' risk.pk %}" class="stack">{% csrf_token %}
+          {% include "includes/field.html" with field=accept_form.justification %}
+          {% include "includes/field.html" with field=accept_form.review_date %}
+          <div><button class="btn" type="submit">Accept risk</button></div>
+        </form>
+      {% else %}<p class="muted small">Only administrators can accept risks.</p>{% endif %}
+    </section>
+  </aside>
+</div>
+{% endblock %}

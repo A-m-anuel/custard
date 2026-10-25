@@ -1,0 +1,1 @@
+{% load custard %}{% with css=asset|score_css %}{% if asset.security_score is None %}<span class="badge unassessed">Not assessed</span>{% else %}<span class="score {{ css }}">{{ asset.security_score|floatformat:2 }}</span>{% if css == "exposed" %} <span class="badge exposed">Exposed</span>{% endif %}{% endif %}{% endwith %}

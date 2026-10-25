@@ -1,0 +1,24 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · CuSTaRD</title>
+  <link rel="stylesheet" href="{% static 'custard/app.css' %}">
+  <link rel="icon" href="{% static 'custard/favicon.svg' %}" type="image/svg+xml">
+</head>
+<body class="login">
+  <main class="card">
+    <h1>Sign in to CuSTaRD</h1>
+    <p class="brandline">Cyber Support Tool for Risk Decisions · {{ organisation_name }}</p>
+    {% include "includes/form_errors.html" %}
+    <form method="post" class="stack" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      {% include "includes/field.html" with field=form.username %}
+      {% include "includes/field.html" with field=form.password %}
+      <div><button class="btn primary" type="submit">Sign in</button></div>
+    </form>
+    <p class="muted small stack-gap">Accounts are created by your administrator.</p>
+  </main>
+</body>
+</html>

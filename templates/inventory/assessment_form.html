@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Assess {{ asset }}{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'asset_list' %}">Assets</a> / <a href="{{ asset.get_absolute_url }}">{{ asset }}</a></div>
+  <h1>Security checklist</h1>
+  <p>{{ asset.category.name }} · tick each control that is in place. Earlier answers are pre-filled.</p>
+</div></div>
+<form method="post">
+  {% csrf_token %}
+  {% include "includes/form_errors.html" %}
+  <div class="grid grid-main">
+    <div class="card checklist" id="assessment-checklist">
+      {% for label, items in groups %}
+      <fieldset><legend>{{ label }}</legend>
+        {% for item, checked in items %}
+        <label for="chk-{{ item.pk }}"><input type="checkbox" name="checklist" value="{{ item.pk }}" id="chk-{{ item.pk }}" data-pillar="{{ item.pillar }}"{% if checked %} checked{% endif %}>
+          <span>{{ item.text }}{% if item.reference %} <span class="muted small">({{ item.reference }})</span>{% endif %}</span></label>
+        {% endfor %}
+      </fieldset>
+      {% endfor %}
+      {% include "includes/field.html" with field=form.notes %}
+      <div class="form-foot"><button class="btn primary" type="submit">Save assessment</button><a class="btn" href="{{ asset.get_absolute_url }}">Cancel</a></div>
+    </div>
+    <aside>
+      <div class="card score-preview" id="score-preview" data-threshold="{{ exposure_threshold }}">
+        <h2>Security score</h2>
+        <div class="big" data-score="overall">—</div>
+        <p><span data-status></span></p>
+        <div class="pillars">
+          <div class="pillar"><div class="label">Confidentiality</div><div class="value" data-score="C">—</div></div>
+          <div class="pillar"><div class="label">Integrity</div><div class="value" data-score="I">—</div></div>
+          <div class="pillar"><div class="label">Availability</div><div class="value" data-score="A">—</div></div>
+        </div>
+        <p class="muted small">(C + I + A) / 30 × 10, each pillar = share of its checks in place × 10. Assets below {{ exposure_threshold|floatformat:"-1" }} are exposed.</p>
+      </div>
+    </aside>
+  </div>
+</form>
+{% endblock %}

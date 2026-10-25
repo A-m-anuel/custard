@@ -1,0 +1,6 @@
+{% load custard %}{% if page_obj.paginator.num_pages > 1 %}
+<nav class="pagination" aria-label="Pagination">
+  <span class="muted">{{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</span>
+  {% if page_obj.has_previous %}<a class="btn small" href="{% query page=page_obj.previous_page_number %}">Previous</a>{% endif %}
+  {% if page_obj.has_next %}<a class="btn small" href="{% query page=page_obj.next_page_number %}">Next</a>{% endif %}
+</nav>{% endif %}

@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  CUSTARD_SECRET_KEY: ci-only-not-secret
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install ruff
+      - run: ruff check .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+        django: ["4.2", "5.2"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "${{ matrix.python }}" }
+      - name: Install
+        run: pip install -r requirements.txt "Django~=${{ matrix.django }}.0" "coverage[toml]"
+      - name: Migrations are complete
+        run: python manage.py makemigrations --check --dry-run
+      - name: Deployment checks
+        env: { CUSTARD_ALLOWED_HOSTS: custard.example.com }
+        run: python manage.py check --deploy --fail-level ERROR
+      - name: Tests
+        run: coverage run manage.py test && coverage report
+
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_DB: custard, POSTGRES_USER: custard, POSTGRES_PASSWORD: custard }
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://custard:custard@localhost:5432/custard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - run: python manage.py test
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pip-audit bandit
+      - name: Dependency vulnerabilities
+        run: pip-audit -r requirements.txt
+      - name: Static analysis
+        run: bandit -q -r custard config -x "*/migrations/*,tests" -ll
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t custard:ci .
+      - name: Smoke test
+        run: |
+          docker run -d --name custard -p 8000:8000 \
+            -e CUSTARD_SECRET_KEY=ci -e CUSTARD_ALLOWED_HOSTS=localhost,127.0.0.1 \
+            -e CUSTARD_SSL_REDIRECT=false -e DATABASE_URL=sqlite:////app/var/custard.db custard:ci
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/healthz && exit 0; sleep 2; done
+          docker logs custard; exit 1

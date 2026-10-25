@@ -1,0 +1,42 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}Risk register{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Risk register</h1><p>Risk = likelihood × impact (NIST SP 800-30). Sorted by score, highest first.</p></div>
+  <div class="actions"><a class="btn" href="{% url 'export_risks' %}">Export CSV</a></div>
+</div>
+<form class="filters" method="get" role="search">
+  <div class="field grow"><label for="q">Search</label><input type="search" id="q" name="q" value="{{ q }}" placeholder="Asset or vulnerability"></div>
+  <div class="field"><label for="level">Risk level</label><select id="level" name="level" data-autosubmit><option value="">All levels</option>{% for v, l in levels %}<option value="{{ v }}"{% if level == v %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="status">Status</label><select id="status" name="status" data-autosubmit>
+    <option value="unresolved"{% if status == "unresolved" %} selected{% endif %}>Unresolved (open, in treatment)</option>
+    <option value="all"{% if status == "all" %} selected{% endif %}>All statuses</option>
+    {% for v, l in statuses %}<option value="{{ v }}"{% if status == v %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="category">Category</label><select id="category" name="category" data-autosubmit><option value="">All categories</option>{% for c in categories %}<option value="{{ c.pk }}"{% if category_id == c.pk|stringformat:"s" %} selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="flag">Show</label><select id="flag" name="flag" data-autosubmit>
+    <option value="">Everything</option><option value="mine"{% if flag == "mine" %} selected{% endif %}>Owned by me</option>
+    <option value="overdue"{% if flag == "overdue" %} selected{% endif %}>With overdue treatments</option>
+    <option value="expired"{% if flag == "expired" %} selected{% endif %}>Expired acceptances</option></select></div>
+  <button class="btn" type="submit">Apply</button>
+</form>
+<div class="card">
+  <div class="table-wrap"><table>
+    <thead><tr><th>Vulnerability</th><th>Asset</th><th>Likelihood</th><th>Impact</th><th>Inherent risk</th><th>Residual</th><th>Status</th><th>Owner</th></tr></thead>
+    <tbody>
+    {% for r in page_obj %}
+      <tr>
+        <td><a href="{{ r.get_absolute_url }}"><strong>{{ r.vulnerability.name }}</strong></a></td>
+        <td><a href="{{ r.asset.get_absolute_url }}">{{ r.asset.name }}</a><div class="muted small">{{ r.asset.category.name }}</div></td>
+        <td>{{ r.get_likelihood_display }}</td>
+        <td>{{ r.get_impact_display }}</td>
+        <td class="nowrap">{% include "includes/level.html" with level=r.inherent_level label=r.inherent_score %} {{ r.get_inherent_level_display }}</td>
+        <td class="nowrap">{% if r.residual_level %}{% include "includes/level.html" with level=r.residual_level label=r.residual_score %}{% else %}<span class="muted">—</span>{% endif %}</td>
+        <td>{{ r.get_status_display }}{% if r.acceptance_expired %} <span class="badge exposed">review overdue</span>{% endif %}</td>
+        <td>{{ r.owner|default:"—" }}</td>
+      </tr>
+    {% empty %}<tr><td colspan="8" class="empty">No risks match these filters.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+  {% include "includes/pagination.html" %}
+</div>
+{% endblock %}

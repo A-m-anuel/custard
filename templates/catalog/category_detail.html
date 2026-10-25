@@ -1,0 +1,53 @@
+{% extends "base.html" %}{% load custard %}
+{% block title %}{{ category }}{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'catalog_index' %}">Knowledge base</a> / {{ category.asset_type.name }}</div>
+  <h1>{{ category.name }}{% if category.is_custom %} <span class="badge neutral">custom</span>{% endif %}</h1>
+  {% if category.description %}<p>{{ category.description }}</p>{% endif %}
+</div></div>
+<div class="grid grid-2">
+  <section class="card">
+    <h2>Security checklist</h2>
+    <p class="muted small">Each pillar scores (checks in place ÷ checks) × 10; the asset score is (C + I + A) ÷ 30 × 10.</p>
+    {% for label, items in checklist %}
+      <h3 class="stack-gap">{{ label }} <span class="muted small">({{ items|length }})</span></h3>
+      {% if items %}<ul class="plain small">{% for i in items %}<li>{{ i.text }}{% if i.reference %} <span class="muted">· {{ i.reference }}</span>{% endif %}</li>{% endfor %}</ul>
+      {% else %}<p class="muted small">No checks - this pillar is not scored for the category.</p>{% endif %}
+    {% endfor %}
+    {% if item_form %}
+    <details class="stack-gap"><summary>Add a checklist item</summary>
+      <form method="post" action="{% url 'checklist_item_add' category.pk %}" class="stack-gap">{% csrf_token %}
+        <div class="form-grid">
+          {% include "includes/field.html" with field=item_form.text full=True %}
+          {% include "includes/field.html" with field=item_form.pillar %}
+          {% include "includes/field.html" with field=item_form.reference %}
+        </div>
+        <div class="form-foot"><button class="btn" type="submit">Add item</button></div>
+      </form>
+    </details>
+    {% endif %}
+  </section>
+  <section class="card">
+    <h2>Default risk mapping</h2>
+    <p class="muted small">Weaknesses assigned to every asset of this category on registration, with their likelihood and recommended mitigations.</p>
+    {% for d in defaults %}
+      <div class="stack-gap"><strong>{{ d.vulnerability.name }}</strong> {% include "includes/level.html" with level=d.likelihood label=d.get_likelihood_display %} <span class="muted small">likelihood</span>
+        <ul class="small">{% for m in d.recommended_mitigations %}<li>{{ m.name }}</li>{% empty %}<li class="muted">No mitigation recorded yet.</li>{% endfor %}</ul></div>
+    {% empty %}<p class="muted">No default weaknesses yet.</p>{% endfor %}
+    {% if vuln_form %}
+    <details class="stack-gap"><summary>Map another weakness</summary>
+      <form method="post" action="{% url 'default_vulnerability_add' category.pk %}" class="stack-gap">{% csrf_token %}
+        <div class="form-grid">
+          {% include "includes/field.html" with field=vuln_form.vulnerability %}
+          {% include "includes/field.html" with field=vuln_form.new_vulnerability %}
+          {% include "includes/field.html" with field=vuln_form.likelihood %}
+          {% include "includes/field.html" with field=vuln_form.mitigations full=True %}
+        </div>
+        <div class="form-foot"><button class="btn" type="submit">Add mapping</button></div>
+      </form>
+    </details>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

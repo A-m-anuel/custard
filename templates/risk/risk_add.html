@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Add risk · {{ asset }}{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'asset_list' %}">Assets</a> / <a href="{{ asset.get_absolute_url }}">{{ asset }}</a></div>
+  <h1>Add a risk</h1><p>Record a weakness that the category mapping does not cover, e.g. from a pentest or vulnerability scan.</p>
+</div></div>
+<div class="card">
+  <form method="post">{% csrf_token %}
+    {% include "includes/form_errors.html" %}
+    <div class="form-grid">
+      {% include "includes/field.html" with field=form.vulnerability %}
+      {% include "includes/field.html" with field=form.new_vulnerability %}
+      {% include "includes/field.html" with field=form.likelihood %}
+      {% include "includes/field.html" with field=form.mitigations full=True %}
+    </div>
+    <div class="form-foot"><button class="btn primary" type="submit">Add risk</button><a class="btn" href="{{ asset.get_absolute_url }}">Cancel</a></div>
+  </form>
+</div>
+{% endblock %}

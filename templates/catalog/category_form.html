@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Add category{% endblock %}
+{% block content %}
+<div class="page-head"><div>
+  <div class="crumbs"><a href="{% url 'catalog_index' %}">Knowledge base</a></div>
+  <h1>Add an asset category</h1>
+  <p>Create a category that the shipped knowledge base does not cover, for example "Websites and domains".</p>
+</div></div>
+<div class="card">
+  <form method="post">{% csrf_token %}
+    {% include "includes/form_errors.html" %}
+    <div class="form-grid">
+      {% include "includes/field.html" with field=form.asset_type %}
+      {% include "includes/field.html" with field=form.name %}
+      {% include "includes/field.html" with field=form.description full=True %}
+    </div>
+    <h2 class="stack-gap">Security checklist</h2>
+    <p class="muted small">Group the checks by the security objective they protect. Leave a pillar empty if it does not apply.</p>
+    <div class="form-grid">
+      {% include "includes/field.html" with field=form.confidentiality full=True %}
+      {% include "includes/field.html" with field=form.integrity %}
+      {% include "includes/field.html" with field=form.availability %}
+    </div>
+    <div class="form-foot"><button class="btn primary" type="submit">Create category</button><a class="btn" href="{% url 'catalog_index' %}">Cancel</a></div>
+  </form>
+</div>
+{% endblock %}
